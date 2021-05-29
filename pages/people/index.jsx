@@ -47,7 +47,7 @@ export default function People() {
 
   return (
     <div className="w-100 h-100 d-flex justify-content-center align-items-start p-5">
-      <div className="">
+      <main className="w-25">
         {loading && <p className="loading">Loading...</p>}
         {friendLists && (
           <PeopleList
@@ -58,7 +58,7 @@ export default function People() {
             selectedPerson={selectedPerson}
           />
         )}
-      </div>
+      </main>
     </div>
   )
 }
