@@ -8,5 +8,5 @@
   - create an 'admin' panel to visualize all the friendships
 ### Extended goals
 - Practise MongoDB: permanently save/update friendships in a MongoDB database
-- Use Next.js to create an API to query the friendships database
+- Create an API with Next.js to query the friendships database, and use it in the React pages
 
