@@ -1,4 +1,4 @@
-import styles from 'styles/People.module.css'
+import styles from 'styles/People.module.scss'
 
 import { useState, useEffect, useCallback } from 'react'
 
@@ -33,8 +33,11 @@ export default function People() {
   )
 
   const handleToggleFriendsDisplay = useCallback(
-    (name) => setFriendListDisplay(name, !showFriends[name]),
-    [setFriendListDisplay, showFriends]
+    (name) => {
+      setFriendListDisplay(name, !showFriends[name])
+      setSelectedPerson(null)
+    },
+    [setFriendListDisplay, setSelectedPerson, showFriends]
   )
 
   const handleFriendClick = useCallback(
@@ -46,9 +49,8 @@ export default function People() {
   )
 
   return (
-    <div className="w-100 h-100 d-flex justify-content-center align-items-start p-5">
-      <main className="w-25">
-        {loading && <p className="loading">Loading...</p>}
+    <div className="vw-100 vh-100 d-flex justify-content-center align-items-center p-5">
+      <main className="w-100 h-100 d-flex flex-column justify-content-start align-items-center">
         {friendLists && (
           <PeopleList
             friendLists={friendLists}
@@ -58,6 +60,11 @@ export default function People() {
             selectedPerson={selectedPerson}
           />
         )}
+        {loading && (
+          <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+            <h1>Loading...</h1>
+          </div>
+        )}
       </main>
     </div>
   )
@@ -65,9 +72,10 @@ export default function People() {
 
 function PeopleList({ friendLists, onToggleFriendsDisplay, onFriendClick, showFriends, selectedPerson }) {
   return (
-    <ul className="list-group">
+    <ul className={`${styles.peopleList} list-group`}>
       {Object.entries(friendLists).map(([name, friends]) => {
         const selected = selectedPerson === name
+        const showPersonFriends = showFriends[name]
 
         return (
           <li className={`list-group-item ${selected ? 'active' : ''}`} key={name}>
@@ -76,7 +84,7 @@ function PeopleList({ friendLists, onToggleFriendsDisplay, onFriendClick, showFr
               onFriendClick={onFriendClick}
               name={name}
               friends={friends}
-              showFriends={showFriends[name]}
+              showFriends={showPersonFriends}
             />
           </li>
         )
@@ -87,29 +95,29 @@ function PeopleList({ friendLists, onToggleFriendsDisplay, onFriendClick, showFr
 
 function Person({ name, friends, showFriends, onFriendClick, onToggleFriendsDisplay }) {
   return (
-    <div className="person" id={name}>
-      <div className="d-flex gap-1">
-        <h2 className="person-name">{name}</h2>
-        <button className="btn btn-secondary font-monospace m-1" onClick={onToggleFriendsDisplay}>
-          {showFriends ? '-' : '+'}
-        </button>
+    <div id={name}>
+      <div className="d-flex justify-content-between gap-1 cursor-pointer" onClick={onToggleFriendsDisplay}>
+        <h2>{name}</h2>
+        <button className="btn btn-secondary font-monospace m-1">{showFriends ? '-' : '+'}</button>
       </div>
-      {showFriends &&
-        (friends.length === 0 ? (
-          <p>No Friends</p>
-        ) : (
-          <ul className="list-group list-group-horizontal text-center">
-            {friends.map((friendName) => (
-              <a
-                key={friendName}
-                href={`#${friendName}`}
-                onClick={() => onFriendClick(friendName)}
-                className="list-group-item list-group-item-action">
-                {friendName}
-              </a>
-            ))}
-          </ul>
-        ))}
+      <div>
+        {showFriends &&
+          (friends.length === 0 ? (
+            <p className="mt-2 mb-2">No Friends</p>
+          ) : (
+            <ul className="m-0 p-0 d-flex justify-content-start flex-wrap">
+              {friends.map((friendName) => (
+                <a
+                  key={friendName}
+                  href={`#${friendName}`}
+                  onClick={() => onFriendClick(friendName)}
+                  className="btn btn-light border border-secondary text-center">
+                  {friendName}
+                </a>
+              ))}
+            </ul>
+          ))}
+      </div>
     </div>
   )
 }
