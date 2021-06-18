@@ -1,6 +1,9 @@
 # Social Media Next
 
-👩🏽‍🤝‍🧑🏼 For now, it's simply a list of friends rendered with React 🤷‍♂️
+👩🏽‍🤝‍🧑🏼 Simple social media app to visualize, add and remove friends
+
+### 🔨 Under construction 🔨
+For now, it's simply a list of friends rendered with React 🤷‍♂
 
 👉 Try it out here: [social-media-next.vercel.app](https://social-media-next.vercel.app/)
 
